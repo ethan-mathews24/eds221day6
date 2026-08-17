@@ -1,0 +1,16 @@
+---
+title : "Data Wrangling"
+output: html
+---
+
+## Set Up
+
+Packages contain functions and data. Load them with the `library() function
+
+```{r}
+
+library(tidyverse)
+
+library(palmerpenguins)
+
+```
