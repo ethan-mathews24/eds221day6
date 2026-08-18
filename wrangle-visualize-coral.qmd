@@ -1,0 +1,85 @@
+
+
+# DAY 6
+```{r}
+library(tidyverse)
+
+moorea_coral <- read_csv(
+  "data/moorea_coral.csv",
+  na = c("", "NA", "ND") # This vector tells read_csv() which values to interpret as missing data
+)
+
+glimpse(moorea_coral)
+
+```
+
+
+# Exercise #1
+
+```{r}
+
+coral <- moorea_coral |> 
+    filter(Site == "LTER_1", 
+    Date == "2017-04", 
+    Taxonomy_Substrate_or_Functional_Group %in% c("Acropora", "Pocillopora")) |>  
+        rename(Type_of_Coral = Taxonomy_Substrate_or_Functional_Group)
+
+ # to look into what values make up a column unique(moorea_coral$Date)
+
+```
+
+```{r}
+
+coral_hist <- moorea_coral |> 
+    filter(Site == "LTER_1", 
+    Date == "2017-04", 
+    Taxonomy_Substrate_or_Functional_Group %in% c("Acropora", "Pocillopora")) |> 
+        rename(Type_of_Coral = Taxonomy_Substrate_or_Functional_Group)
+
+ggplot(data = coral_hist, mapping = aes(x = Habitat, y = Percent_Cover, fill = Type_of_Coral)) +
+
+    geom_boxplot() +
+
+    scale_x_discrete(name = "Habitat") +
+
+    scale_y_continuous(name = "Percent Cover (%)") +
+
+    labs(fill = "Coral Type")
+
+
+```
+
+
+# Exercise #2
+
+```{r}
+
+coral_summary <- coral |> 
+    mutate(percent_cover_pct = Percent_Cover / 100) |> 
+    group_by(Habitat, Depth, Type_of_Coral) |> 
+    summarize(mean_cover = mean(Percent_Cover, na.rm = TRUE),
+    sd_cover = sd(Percent_Cover, na.rm = TRUE)) |> 
+        arrange(Depth, Type_of_Coral)
+
+
+```
+
+
+# Exercise #3
+
+```{r}
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
